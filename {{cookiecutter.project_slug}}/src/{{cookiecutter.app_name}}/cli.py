@@ -22,9 +22,10 @@ def main(argv=None):
     args = _args(argv)
     logger.start(args.warn)
     logger.debug("starting execution")
-    config.load(args.config)
+    config.load(args.config_files)
     config.core.logging = args.warn
     command = args.command
+    args.config = config
     args = vars(args)
     spec = getfullargspec(command)
     if not spec.varkw:
@@ -45,7 +46,7 @@ def _args(argv):
     :param argv: argument list to parse
     """
     parser = ArgumentParser()
-    parser.add_argument("-c", "--config", action="append",
+    parser.add_argument("-c", "--config_files", action="append",
             help="config file [etc/config.yml]")
     parser.add_argument("-v", "--version", action="version",
             version="{{ cookiecutter.app_name }} {:s}".format(__version__),
@@ -58,10 +59,10 @@ def _args(argv):
     _cmd1(subparsers, common)
     _cmd2(subparsers, common)
     args = parser.parse_args(argv)
-    if not args.config:
+    if not args.config_files:
         # Don't specify this as an argument default or else it will always be
         # included in the list.
-        args.config = "etc/config.yml"
+        args.config_files = "etc/config.yml"
     return args
  
 
