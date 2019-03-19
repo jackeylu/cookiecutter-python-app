@@ -4,7 +4,7 @@
 from distutils import log
 from itertools import chain
 from os import walk
-from os.path import join
+from os.path import join, sep
 from subprocess import check_call
 from subprocess import CalledProcessError
 
@@ -22,7 +22,7 @@ def _listdir(root):
     return
 
 
-_DATA = "etc/",
+_DATA = "etc" + sep,
 
 _CONFIG = {
     "name": "{{ cookiecutter.app_name }}",
